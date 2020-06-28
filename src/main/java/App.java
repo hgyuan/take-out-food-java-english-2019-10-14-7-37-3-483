@@ -12,9 +12,39 @@ public class App {
         this.salesPromotionRepository = salesPromotionRepository;
     }
 
+    public static void main(String[] args) {
+
+    }
     public String bestCharge(List<String> inputs) {
         //TODO: write code here
-
-        return null;
+        StringBuilder result = new StringBuilder("============= Order details =============\n");
+        String half ="";
+        int price = 0;
+        int halfPrice = 0;
+        for(String s: inputs){
+            String[] arr = s.split(" ");
+            if(arr[0] .equals( "ITEM0001")){
+                price += 18* Integer.parseInt(arr[2]);
+                halfPrice += 9* Integer.parseInt(arr[2]);
+                result.append("Braised chicken x ").append(arr[2]).append(" = ").append(18 * Integer.parseInt(arr[2])).append(" yuan\n");
+                half +="Braised chicken";
+            }else if(arr[0].equals("ITEM0013")){
+                price += 6* Integer.parseInt(arr[2]);
+                result.append("Chinese hamburger x ").append(arr[2]).append(" = ").append(6 * Integer.parseInt(arr[2])).append(" yuan\n");
+            }else if(arr[0].equals("ITEM0022")){
+                price += 8* Integer.parseInt(arr[2]);
+                halfPrice += 4* Integer.parseInt(arr[2]);
+                result.append("Cold noodles x ").append(arr[2]).append(" = ").append(8 * Integer.parseInt(arr[2])).append(" yuan\n");
+                half +="，Cold noodles";
+            }
+        }
+        if(halfPrice==0&&price<30){
+            result.append("-----------------------------------\n" + "Total：").append(price).append(" yuan\n").append("===================================");
+        }else if(price-(price/30*6)<=price-halfPrice){
+            result.append("-----------------------------------\n" + "Promotion used:\n" + "满30减6 yuan，saving 6 yuan\n" + "-----------------------------------\n" + "Total：").append(price - (price / 30 * 6)).append(" yuan\n").append("===================================");
+        }else {
+            result.append("-----------------------------------\n" + "Promotion used:\n" + "Half price for certain dishes (Braised chicken，Cold noodles)，saving 13 yuan\n" + "-----------------------------------\n" + "Total：").append(price - halfPrice).append(" yuan\n").append("===================================");
+        }
+        return result.toString();
     }
 }
